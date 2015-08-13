@@ -17,7 +17,7 @@
 #pragma mark - Helpers
 ///--------------------------------------
 
-@interface TheFlash : PFObject<PFSubclassing> {
+@interface TheFlash : PFObject<PFSubclassingSkipAutomaticRegistration> {
     NSString *flashName;
 }
 
@@ -59,7 +59,7 @@
 
 @end
 
-@interface ClassWithDirtyingConstructor : PFObject<PFSubclassing>
+@interface ClassWithDirtyingConstructor : PFObject<PFSubclassingSkipAutomaticRegistration>
 @end
 
 @implementation ClassWithDirtyingConstructor
@@ -85,7 +85,7 @@
 @implementation UtilityClass
 @end
 
-@interface DescendantOfUtility : UtilityClass<PFSubclassing>
+@interface DescendantOfUtility : UtilityClass<PFSubclassingSkipAutomaticRegistration>
 @end
 
 @implementation DescendantOfUtility
@@ -103,17 +103,6 @@
 @end
 
 @implementation ObjectSubclassTests
-
-///--------------------------------------
-#pragma mark - XCTestCase
-///--------------------------------------
-
-- (void)tearDown {
-    [PFObject unregisterSubclass:[TheFlash class]];
-    [PFObject unregisterSubclass:[BarryAllen class]];
-
-    [super tearDown];
-}
 
 ///--------------------------------------
 #pragma mark - Tests
@@ -156,18 +145,6 @@
     // its own parseClassName, this should succeed because the parent class
     // did not define parseClassName
     [DescendantOfUtility registerSubclass];
-}
-
-- (void)testSubclassRegistrationBeforeInitializingParse {
-    [[Parse _currentManager] clearEventuallyQueue];
-    [Parse _clearCurrentManager];
-
-    [TheFlash registerSubclass];
-
-    [Parse setApplicationId:@"a" clientKey:@"b"];
-
-    PFObject *theFlash = [PFObject objectWithClassName:@"Person"];
-    PFAssertIsKindOfClass(theFlash, [TheFlash class]);
 }
 
 @end
