@@ -2743,7 +2743,7 @@ static BOOL PFObjectValueIsKindOfMutableContainerClass(id object) {
 }
 
 + (PFObjectSubclassingController *)subclassingController {
-    return [PFObjectSubclassingController defaultController];
+    return [Parse _currentManager].coreManager.objectSubclassingController;
 }
 
 @end
