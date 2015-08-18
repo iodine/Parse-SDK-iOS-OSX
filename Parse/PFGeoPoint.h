@@ -60,6 +60,7 @@ typedef void(^PFGeoPointResultBlock)(PFGeoPoint *PF_NULLABLE_S geoPoint, NSError
  */
 + (PFGeoPoint *)geoPointWithLatitude:(double)latitude longitude:(double)longitude;
 
+#if !TARGET_OS_WATCH
 /*!
  @abstract Fetches the current device location and executes a block with a new `PFGeoPoint` object.
 
@@ -67,6 +68,7 @@ typedef void(^PFGeoPointResultBlock)(PFGeoPoint *PF_NULLABLE_S geoPoint, NSError
  It should have the following argument signature: `^(PFGeoPoint *geoPoint, NSError *error)`
  */
 + (void)geoPointForCurrentLocationInBackground:(PF_NULLABLE PFGeoPointResultBlock)resultBlock;
+#endif
 
 ///--------------------------------------
 /// @name Controlling Position

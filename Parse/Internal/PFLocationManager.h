@@ -39,7 +39,7 @@ typedef void(^PFLocationManagerLocationUpdateBlock)(CLLocation *location, NSErro
 
 - (instancetype)initWithSystemLocationManager:(CLLocationManager *)manager;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
 
 - (instancetype)initWithSystemLocationManager:(CLLocationManager *)manager
                                   application:(UIApplication *)application

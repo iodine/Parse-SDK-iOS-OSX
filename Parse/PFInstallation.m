@@ -24,9 +24,12 @@
 #import "PFObjectEstimatedData.h"
 #import "PFObjectPrivate.h"
 #import "PFOfflineStore.h"
-#import "PFPushPrivate.h"
 #import "PFQueryPrivate.h"
 #import "Parse_Private.h"
+
+#if !TARGET_OS_WATCH
+#import "PFPushPrivate.h"
+#endif
 
 @implementation PFInstallation (Private)
 
@@ -190,9 +193,11 @@ static NSSet *protectedKeys;
 }
 
 - (void)setDeviceTokenFromData:(NSData *)deviceTokenData {
+#if !TARGET_OS_WATCH
     [self _setObject:[[PFPush pushInternalUtilClass] convertDeviceTokenToString:deviceTokenData]
               forKey:PFInstallationKeyDeviceToken
      onlyIfDifferent:YES];
+#endif
 }
 
 - (void)setTimeZone:(NSString *)timeZone {

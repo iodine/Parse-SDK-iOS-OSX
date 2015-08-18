@@ -42,6 +42,7 @@ const double EARTH_RADIUS_KILOMETERS = 6371.0;
     return gpt;
 }
 
+#if !TARGET_OS_WATCH
 + (void)geoPointForCurrentLocationInBackground:(PFGeoPointResultBlock)resultBlock {
     if (!resultBlock) {
         return;
@@ -53,6 +54,7 @@ const double EARTH_RADIUS_KILOMETERS = 6371.0;
     };
     [[Parse _currentManager].coreManager.locationManager addBlockForCurrentLocation:locationHandler];
 }
+#endif
 
 ///--------------------------------------
 #pragma mark - Accessors

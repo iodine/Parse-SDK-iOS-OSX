@@ -18,7 +18,6 @@
 #import <Parse/PFConfig.h>
 #import <Parse/PFConstants.h>
 #import <Parse/PFFile.h>
-#import <Parse/PFGeoPoint.h>
 #import <Parse/PFObject+Subclass.h>
 #import <Parse/PFObject.h>
 #import <Parse/PFQuery.h>
@@ -28,11 +27,15 @@
 #import <Parse/PFSubclassing.h>
 #import <Parse/PFUser.h>
 #import <Parse/PFInstallation.h>
-#import <Parse/PFNetworkActivityIndicatorManager.h>
 #import <Parse/PFNullability.h>
+
+#if !TARGET_OS_WATCH
+#import <Parse/PFNetworkActivityIndicatorManager.h>
+#import <Parse/PFGeoPoint.h>
 #import <Parse/PFProduct.h>
-#import <Parse/PFPurchase.h>
 #import <Parse/PFPush.h>
+#import <Parse/PFPurchase.h>
+#endif
 
 #else
 

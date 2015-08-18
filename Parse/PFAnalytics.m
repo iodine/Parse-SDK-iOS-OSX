@@ -25,10 +25,11 @@
 ///--------------------------------------
 
 + (BFTask *)trackAppOpenedWithLaunchOptions:(NSDictionary *)launchOptions {
-#if TARGET_OS_IPHONE
-    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-#else
-    NSDictionary *userInfo = launchOptions[NSApplicationLaunchUserNotificationKey];
+    NSDictionary *userInfo;
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
+    userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+#elif TARGET_OS_MAC && !TARGET_OS_IPHONE
+    userInfo = launchOptions[NSApplicationLaunchUserNotificationKey];
 #endif
 
     return [self trackAppOpenedWithRemoteNotificationPayload:userInfo];

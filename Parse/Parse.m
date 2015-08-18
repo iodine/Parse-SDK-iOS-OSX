@@ -26,7 +26,7 @@
 #import "PFInstallationPrivate.h"
 #import "PFObjectSubclassingController.h"
 
-#if PARSE_IOS_ONLY
+#if PARSE_IOS_ONLY && !TARGET_OS_WATCH
 #import "PFProduct+Private.h"
 #endif
 
@@ -76,7 +76,7 @@ static NSString *containingApplicationBundleIdentifier_;
     [subclassingController registerSubclass:[PFRole class]];
     [subclassingController registerSubclass:[PFPin class]];
     [subclassingController registerSubclass:[PFEventuallyPin class]];
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
     [subclassingController registerSubclass:[PFProduct class]];
 #endif
 

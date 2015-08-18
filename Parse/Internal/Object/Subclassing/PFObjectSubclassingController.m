@@ -25,7 +25,7 @@
 #import "PFEventuallyPin.h"
 #import "PFInstallation.h"
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
 #import "PFProduct.h"
 #endif
 

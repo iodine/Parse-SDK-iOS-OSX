@@ -8,11 +8,17 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <Availability.h>
+
+#if !TARGET_OS_WATCH
 #import <SystemConfiguration/SCNetworkReachability.h>
+#endif
 
 #if TARGET_OS_IPHONE
 # import <Parse/PFConstants.h>
+#if !TARGET_OS_WATCH
 # import "PFPushPrivate.h"
+#endif
 #else
 # import <ParseOSX/PFConstants.h>
 #endif

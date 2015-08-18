@@ -10,7 +10,9 @@
 #import "PFPush.h"
 #import "PFPushPrivate.h"
 
+#if !TARGET_OS_WATCH
 #import <AudioToolbox/AudioToolbox.h>
+#endif
 
 #import "BFTask+Private.h"
 #import "PFAssert.h"

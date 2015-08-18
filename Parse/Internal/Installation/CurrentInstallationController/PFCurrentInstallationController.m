@@ -17,8 +17,11 @@
 #import "PFMacros.h"
 #import "PFObjectFilePersistenceController.h"
 #import "PFObjectPrivate.h"
-#import "PFPushPrivate.h"
 #import "PFQuery.h"
+
+#if !TARGET_OS_WATCH
+#import "PFPushPrivate.h"
+#endif
 
 NSString *const PFCurrentInstallationFileName = @"currentInstallation";
 NSString *const PFCurrentInstallationPinName = @"_currentInstallation";
@@ -119,7 +122,9 @@ NSString *const PFCurrentInstallationPinName = @"_currentInstallation";
                 if (installation) {
                     oldDeviceToken = installation.deviceToken;
                 } else {
+#if !TARGET_OS_WATCH
                     oldDeviceToken = [[PFPush pushInternalUtilClass] getDeviceTokenFromKeychain];
+#endif
                 }
 
                 installation = [PFInstallation object];

@@ -64,6 +64,11 @@
     return [self initWithSystemLocationManager:manager];
 }
 
+#if TARGET_OS_WATCH
+- (instancetype)initWithSystemLocationManager:(CLLocationManager *)manager {
+	return nil;
+}
+#else
 - (instancetype)initWithSystemLocationManager:(CLLocationManager *)manager {
     return [self initWithSystemLocationManager:manager
                                    application:[UIApplication sharedApplication]
@@ -84,6 +89,7 @@
 
     return self;
 }
+#endif
 
 ///--------------------------------------
 #pragma mark - Dealloc
@@ -102,7 +108,7 @@
         [self.blockSet addObject:[handler copy]];
     }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
 
         if (self.application.applicationState != UIApplicationStateBackground &&
@@ -114,7 +120,9 @@
     }
 #endif
 
+#if !TARGET_OS_WATCH
     [self.locationManager startUpdatingLocation];
+#endif
 }
 
 ///--------------------------------------
@@ -140,6 +148,7 @@
 }
 #pragma clang diagnostic pop
 
+#if !TARGET_OS_WATCH
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *location = [locations lastObject];
     CLLocation *oldLocation = [locations count] > 1 ? [locations objectAtIndex:[locations count] - 2] : nil;
@@ -163,5 +172,6 @@
         block(nil, error);
     }
 }
+#endif
 
 @end

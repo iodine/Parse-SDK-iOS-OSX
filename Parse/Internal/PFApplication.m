@@ -47,9 +47,9 @@
 }
 
 - (NSInteger)iconBadgeNumber {
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
     return [UIApplication sharedApplication].applicationIconBadgeNumber;
-#else
+#elif TARGET_OS_MAC && !TARGET_OS_IPHONE
     // Make sure not to use `NSApp` here, because it doesn't work sometimes,
     // `NSApplication +sharedApplication` does though.
     NSString *badgeLabel = [[NSApplication sharedApplication] dockTile].badgeLabel;
@@ -66,14 +66,16 @@
     }
 
     return number;
+#else
+    return 0;
 #endif
 }
 
 - (void)setIconBadgeNumber:(NSInteger)iconBadgeNumber {
     if (self.iconBadgeNumber != iconBadgeNumber) {
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
         [UIApplication sharedApplication].applicationIconBadgeNumber = iconBadgeNumber;
-#else
+#elif TARGET_OS_MAC && !TARGET_OS_IPHONE
         [[NSApplication sharedApplication] dockTile].badgeLabel = [@(iconBadgeNumber) stringValue];
 #endif
     }

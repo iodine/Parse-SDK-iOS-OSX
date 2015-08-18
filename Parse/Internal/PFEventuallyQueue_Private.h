@@ -7,7 +7,9 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#if !TARGET_OS_WATCH
 #import <SystemConfiguration/SCNetworkReachability.h>
+#endif
 
 #import "PFEventuallyQueue.h"
 
@@ -28,9 +30,11 @@ extern NSTimeInterval const PFEventuallyQueueDefaultTimeoutRetryInterval;
     BFExecutor *_synchronizationExecutor;
     dispatch_queue_t _synchronizationQueue;
 
+#if !TARGET_OS_WATCH
     // Object for getting network status.
     SCNetworkReachabilityRef _reachability;
     dispatch_queue_t _reachabilityQueue;
+#endif
 
 @private
     dispatch_queue_t _processingQueue;

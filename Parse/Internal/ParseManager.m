@@ -25,13 +25,16 @@
 #import "PFLogging.h"
 #import "PFMultiProcessFileLockController.h"
 #import "PFPinningEventuallyQueue.h"
-#import "PFPushManager.h"
 #import "PFUser.h"
 #import "PFURLSessionCommandRunner.h"
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
 #import "PFPurchaseController.h"
 #import "PFProduct.h"
+#endif
+
+#if !TARGET_OS_WATCH
+#import "PFPushManager.h"
 #endif
 
 static NSString *const _ParseApplicationIdFileName = @"applicationId";
@@ -65,9 +68,13 @@ static NSString *const _ParseApplicationIdFileName = @"applicationId";
 @synthesize keyValueCache = _keyValueCache;
 @synthesize coreManager = _coreManager;
 @synthesize analyticsController = _analyticsController;
-@synthesize pushManager = _pushManager;
+
 #if TARGET_OS_IPHONE
 @synthesize purchaseController = _purchaseController;
+#endif
+
+#if !TARGET_OS_WATCH
+@synthesize pushManager = _pushManager;
 #endif
 
 ///--------------------------------------
@@ -295,6 +302,7 @@ static NSString *const _ParseApplicationIdFileName = @"applicationId";
 
 #pragma mark PushManager
 
+#if !TARGET_OS_WATCH
 - (PFPushManager *)pushManager {
     __block PFPushManager *manager = nil;
     dispatch_sync(_pushManagerAccessQueue, ^{
@@ -311,6 +319,7 @@ static NSString *const _ParseApplicationIdFileName = @"applicationId";
         _pushManager = pushManager;
     });
 }
+#endif
 
 #pragma mark AnalyticsController
 
@@ -333,7 +342,7 @@ static NSString *const _ParseApplicationIdFileName = @"applicationId";
     });
 }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_WATCH
 
 #pragma mark PurchaseController
 

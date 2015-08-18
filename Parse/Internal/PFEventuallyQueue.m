@@ -21,13 +21,21 @@
 #import "PFLogging.h"
 #import "PFMacros.h"
 #import "PFRESTCommand.h"
-#import "PFReachability.h"
 #import "PFTaskQueue.h"
+
+#if !TARGET_OS_WATCH
+#import "PFReachability.h"
+#endif
 
 NSUInteger const PFEventuallyQueueDefaultMaxAttemptsCount = 5;
 NSTimeInterval const PFEventuallyQueueDefaultTimeoutRetryInterval = 600.0f;
 
+#if !TARGET_OS_WATCH
 @interface PFEventuallyQueue () <PFReachabilityListener>
+@end
+#endif
+
+@interface PFEventuallyQueue ()
 
 @property (atomic, assign, readwrite) BOOL monitorsReachability;
 @property (atomic, assign, getter=isRunning) BOOL running;
@@ -360,6 +368,7 @@ NSTimeInterval const PFEventuallyQueueDefaultTimeoutRetryInterval = 600.0f;
 ///--------------------------------------
 
 - (void)_startMonitoringNetworkReachability {
+    #if !TARGET_OS_WATCH
     if (self.monitorsReachability) {
         return;
     }
@@ -369,9 +378,11 @@ NSTimeInterval const PFEventuallyQueueDefaultTimeoutRetryInterval = 600.0f;
 
     // Set the initial connected status
     self.connected = ([PFReachability sharedParseReachability].currentState != PFReachabilityStateNotReachable);
+    #endif
 }
 
 - (void)_stopMonitoringNetworkReachability {
+    #if !TARGET_OS_WATCH
     if (!self.monitorsReachability) {
         return;
     }
@@ -387,6 +398,7 @@ NSTimeInterval const PFEventuallyQueueDefaultTimeoutRetryInterval = 600.0f;
 
     self.monitorsReachability = NO;
     self.connected = YES;
+    #endif
 }
 
 ///--------------------------------------
@@ -458,11 +470,13 @@ NSTimeInterval const PFEventuallyQueueDefaultTimeoutRetryInterval = 600.0f;
 #pragma mark - Reachability
 ///--------------------------------------
 
+#if !TARGET_OS_WATCH
 - (void)reachability:(PFReachability *)reachability didChangeReachabilityState:(PFReachabilityState)state {
     if (self.monitorsReachability) {
         self.connected = (state != PFReachabilityStateNotReachable);
     }
 }
+#endif
 
 @end
 
